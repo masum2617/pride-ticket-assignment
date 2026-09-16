@@ -1,6 +1,7 @@
 package com.pridesys.ticketing.app.auth.controllers;
 
 import com.pridesys.ticketing.app.auth.dto.LoginRequestDto;
+import com.pridesys.ticketing.app.auth.dto.UserInfoRequestDto;
 import com.pridesys.ticketing.app.auth.dto.UserRegRequestDto;
 import com.pridesys.ticketing.app.auth.service.UserService;
 import com.pridesys.ticketing.app.common.response.Response;
@@ -27,7 +28,12 @@ public class UserController {
     }
 
     @GetMapping("/test")
-    public Response test() {
-        return ResponseUtils.createSuccessResponse("SUCCESS TEST");
+    public String test() {
+        return "TESTING";
+    }
+
+    @PostMapping("/update")
+    public Response updateUserInfo(@RequestBody UserInfoRequestDto userInfoRequestDto) {
+        return userService.updateInfo(userInfoRequestDto);
     }
 }

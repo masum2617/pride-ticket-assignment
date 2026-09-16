@@ -45,15 +45,17 @@ public class ProjectSecurityConfig {
                         return config;
                     }
                 }))
-                .csrf(csrfConfig -> csrfConfig.csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
-                        .ignoringRequestMatchers("/contact", "/api/user/register", "/api/user/login")
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+//                .csrf(csrfConfig -> csrfConfig.csrfTokenRequestHandler(csrfTokenRequestAttributeHandler)
+//                        .ignoringRequestMatchers("/contact", "/api/user/register", "/api/user/login")
+//                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
+                .csrf(csrfConfig -> csrfConfig.disable())
                 .addFilterBefore(new JWTTokenValidatorFilter(), BasicAuthenticationFilter.class)
 
                 .authorizeHttpRequests((requests) -> requests
                         .requestMatchers("/api/user/login").permitAll()
                         .requestMatchers("/api/user/register").permitAll()
                         .requestMatchers("/api/user/test").hasAnyAuthority("CLIENT_ADMIN")
+                        .requestMatchers("/api/user/update").hasAnyAuthority("CLIENT_ADMIN")
                         .anyRequest().authenticated()
                 );
 

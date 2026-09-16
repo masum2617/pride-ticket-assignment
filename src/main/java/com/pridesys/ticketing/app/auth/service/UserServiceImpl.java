@@ -2,6 +2,7 @@ package com.pridesys.ticketing.app.auth.service;
 
 import com.pridesys.ticketing.app.auth.dto.LoginRequestDto;
 import com.pridesys.ticketing.app.auth.dto.LoginResponseDTO;
+import com.pridesys.ticketing.app.auth.dto.UserInfoRequestDto;
 import com.pridesys.ticketing.app.auth.dto.UserRegRequestDto;
 import com.pridesys.ticketing.app.auth.entity.RoleEntity;
 import com.pridesys.ticketing.app.auth.entity.UserEntity;
@@ -89,6 +90,29 @@ public class UserServiceImpl implements UserService {
         String jwt = jwtTokenService.generateToken(result);
 
         return ResponseUtils.createSuccessResponse("Login Successful", jwt);
+    }
+
+    @Override
+    public Response updateInfo(UserInfoRequestDto userInfoRequestDto) {
+        if (userInfoRequestDto.getId() == null) {
+            return ResponseUtils.createFailedResponse("User id is required");
+        }
+
+        UserEntity user = userRepo.findById(userInfoRequestDto.getId())
+                .orElseThrow(() -> new RuntimeException("No User Found"));
+
+        if(userInfoRequestDto.getPassword() != null) {
+            String hashPwd = passwordEncoder.encode(userInfoRequestDto.getPassword());
+            user.setPassword(hashPwd);
+        }
+        user.setFullName(userInfoRequestDto.getFullName());
+        user.setMobile(userInfoRequestDto.getMobile());
+        user.setDesignation(userInfoRequestDto.getDesignation());
+        user.setOffice(userInfoRequestDto.getOffice());
+
+        userRepo.save(user);
+
+        return ResponseUtils.createSuccessResponse("User Updated");
     }
 
 }
