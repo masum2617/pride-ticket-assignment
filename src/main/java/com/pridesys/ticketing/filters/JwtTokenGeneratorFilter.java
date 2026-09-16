@@ -23,14 +23,13 @@ import java.util.stream.Collectors;
 /**
  * @author Masum Hasan
  * To Generate Token after login
- * <p>
- * /*I don't want to generate multiple jwt token for each request
+ *
+ *
  */
 public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        /*once the initial login the complete we want to generate the jwt token, for future request itwill not generate any new token*/
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -42,7 +41,7 @@ public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
                 String secret = env.getProperty(ApplicationConstants.JWT_SECRET_KEY, ApplicationConstants.JWT_SECRET_DEFAULT_VALUE);
                 SecretKey secretKey = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 
-                /*this issuer helps to indentify which org/or person issued this jwt token*/
+
                 String jwt = Jwts.builder().issuer("Ticket System").subject("JWT Token")
                         .claim("username", authentication.getName())
                         .claim("authorities", authentication.getAuthorities().stream().map(

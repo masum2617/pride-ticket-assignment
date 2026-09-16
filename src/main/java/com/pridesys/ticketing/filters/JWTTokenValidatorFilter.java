@@ -26,13 +26,15 @@ import java.nio.charset.StandardCharsets;
  */
 public class JWTTokenValidatorFilter extends OncePerRequestFilter {
 
-    /*this filter will executed for all the protected path ( other than user-login path)*/
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
         String jwt = request.getHeader(ApplicationConstants.JWT_HEADER);
+        if (jwt != null && jwt.startsWith("Bearer ")) {
+            jwt = jwt.substring(7);
+        }
+
         if(null != jwt) {
             try {
                 Environment env = getEnvironment();
@@ -61,7 +63,7 @@ public class JWTTokenValidatorFilter extends OncePerRequestFilter {
     }
 
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        return request.getServletPath().equals("/api/user/login"); //false when the filter will executed
+        return request.getServletPath().equals("/api/user/login");
     }
 
 }
