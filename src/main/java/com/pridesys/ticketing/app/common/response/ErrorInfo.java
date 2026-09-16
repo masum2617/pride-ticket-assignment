@@ -22,8 +22,8 @@ public class ErrorInfo {
     @Schema(description = "Application-specific error code", example = "RESOURCE_NOT_FOUND")
     private String code;
 
-    @Schema(description = "Detailed error information")
-    private ErrorDetail[] details;
+//    @Schema(description = "Detailed error information")
+//    private ErrorDetail[] details;
 
     /**
      * Creates an ErrorInfo instance with a single error detail.
@@ -36,9 +36,9 @@ public class ErrorInfo {
     public static ErrorInfo of(String code, String field, String message) {
         ErrorInfo errorInfo = new ErrorInfo();
         errorInfo.setCode(code);
-        errorInfo.setDetails(new ErrorDetail[]{
-                ErrorDetail.of(field, message)
-        });
+//        errorInfo.setDetails(new ErrorDetail[]{
+//                ErrorDetail.of(field, message)
+//        });
         return errorInfo;
     }
 

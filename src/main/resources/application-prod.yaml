@@ -1,14 +1,11 @@
 server:
   port: 8081
   host: ticketing
-#  servlet:
-#    context-path: "/api/v1"
 
 spring:
   application:
     name: "ticket-service"
-  profiles:
-    active: "default"
+
 
   main:
     allow-bean-definition-overriding: true
